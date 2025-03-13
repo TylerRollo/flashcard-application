@@ -22,7 +22,7 @@ const Header = () => {
             <Link to="/decks">Decks</Link>
           </li>
           <li>
-            <Link to="/change-cards">Change Cards</Link>
+            <Link to="/playgame">Play Game</Link>
           </li>
         </ul>
 
