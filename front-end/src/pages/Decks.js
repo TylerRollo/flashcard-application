@@ -64,6 +64,7 @@ const Decks = () => {
       </header>
 
       <section className="deck-form">
+        <h1>Create New Deck</h1>
         <input
           type="text"
           placeholder="New Deck Name"
@@ -79,7 +80,7 @@ const Decks = () => {
             <Link to={`/decks/${deck.id}`}>
               <h2>{deck.name}</h2>
             </Link>
-            <button onClick={() => deleteDeck(deck.id)}>Delete</button>
+            <button onClick={() => deleteDeck(deck.id)}>Delete Deck</button>
           </div>
         ))}
       </section>
