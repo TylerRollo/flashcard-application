@@ -1,7 +1,7 @@
 // src/pages/PlaygameDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import "../styles/pages/DeckDetails.css";
+import "../styles/pages/PlaygameDetails.css";
 
 const PlaygameDetails = () => {
   const { id } = useParams();
@@ -48,16 +48,23 @@ const PlaygameDetails = () => {
   };
 
   return (
-    <div className="deck-details-container">
-      <header className="deck-header">
+    <div className="playgame-container">
+      <header className="playgame-header">
         <h1>{deck ? deck.name : 'Loading...'}</h1>
       </header>
 
       <section className="flashcard-container">
         {currentCard ? (
-          <div className="flashcard-item" onClick={!showAnswer ? handleCardClick : null}>
-            <p><strong>Q:</strong> {currentCard.front}</p>
-            {showAnswer && <p><strong>A:</strong> {currentCard.back}</p>}
+          <div
+            className={`flashcard ${showAnswer ? 'flipped' : ''}`}
+            onClick={!showAnswer ? handleCardClick : null}
+          >
+            <div className="flashcard-content">
+              <p><strong>Q:</strong> {currentCard.front}</p>
+            </div>
+            <div className="flashcard-content flashcard-answer">
+              <p><strong>A:</strong> {currentCard.back}</p>
+            </div>
           </div>
         ) : (
           <p>Loading flashcards...</p>
@@ -65,7 +72,7 @@ const PlaygameDetails = () => {
       </section>
 
       {showAnswer && (
-        <button className="next-card-button" onClick={handleNextCard}>Next Card</button>
+        <button className="next-button" onClick={handleNextCard}>Next Card</button>
       )}
     </div>
   );

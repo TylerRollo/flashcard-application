@@ -46,6 +46,9 @@ const Decks = () => {
   };
 
   const deleteDeck = async (deckId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this deck?");
+    if (!confirmDelete) return;
+
     try {
       await fetch(`http://localhost:5000/api/decks/${deckId}`, { method: "DELETE" });
       fetchDecks();

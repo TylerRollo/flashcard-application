@@ -23,7 +23,7 @@ const Playgame = () => {
   return (
       <div className="decks-container">
         <header className="decks-header">
-          <h1>My Decks</h1>
+          <h1>Choose your Deck</h1>
         </header>
   
         <section className="deck-list">
