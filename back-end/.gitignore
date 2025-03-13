@@ -45,3 +45,4 @@ amplifytools.xcconfig
 #amplify-do-not-edit-end
 
 my-keypair.pem
+.env
