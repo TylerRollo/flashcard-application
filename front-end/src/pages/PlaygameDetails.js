@@ -14,22 +14,31 @@ const PlaygameDetails = () => {
     fetchDeckDetails();
   }, [id]);
 
+  const fetchWithTimeout = (url, options = {}, timeout = 30000) => {
+    return Promise.race([
+      fetch(url, options),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out")), timeout))
+    ]);
+  };
+  
   const fetchDeckDetails = async () => {
     try {
-      const deckResponse = await fetch(`http://localhost:5000/api/decks/${id}`);
+      const deckResponse = await fetchWithTimeout(`http://localhost:5000/api/decks/${id}`);
       if (!deckResponse.ok) throw new Error(`Error fetching deck: ${deckResponse.status}`);
       const deckData = await deckResponse.json();
       setDeck(deckData);
-      
-      const flashcardsResponse = await fetch(`http://localhost:5000/api/flashcards/${id}`);
+  
+      const flashcardsResponse = await fetchWithTimeout(`http://localhost:5000/api/flashcards/${id}`);
       if (!flashcardsResponse.ok) throw new Error(`Error fetching flashcards: ${flashcardsResponse.status}`);
       const flashcardData = await flashcardsResponse.json();
       setFlashcards(flashcardData);
       pickRandomCard(flashcardData);
     } catch (error) {
       console.error('Error fetching deck details:', error);
+      alert(error.message); // Show an alert for the user
     }
   };
+  
 
   const pickRandomCard = (cards) => {
     if (cards.length > 0) {
