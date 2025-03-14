@@ -4,53 +4,44 @@ import { useParams } from 'react-router-dom';
 import "../styles/pages/DeckDetails.css";
 
 const DeckDetails = () => {
-  const { id } = useParams();  // Get the deck ID from the URL params
-  const [deck, setDeck] = useState(null);  // Store the deck data
-  const [flashcards, setFlashcards] = useState([]);  // Store the flashcards for the deck
-  const [newCard, setNewCard] = useState({ deck_id: Number(id), front: '', back: '' });  // Ensure deck_id is a number
-
-  // Fetch the deck details when the component mounts or when the ID changes
+  const { id } = useParams();
+  const [deck, setDeck] = useState(null);
+  const [flashcards, setFlashcards] = useState([]);
+  const [newCard, setNewCard] = useState({ deck_id: Number(id), front: '', back: '' });
+  const [editingCard, setEditingCard] = useState(null);
+  
   useEffect(() => {
-    console.log("Deck ID from URL params:", id); // Debugging
     fetchDeckDetails();
   }, [id]);
 
   const fetchDeckDetails = async () => {
     try {
-      const deck_response = await fetch(`http://localhost:5000/api/decks/${id}`);
-      if (!deck_response.ok) throw new Error(`Error fetching deck: ${deck_response.status}`);
-      const deck_data = await deck_response.json();
-      setDeck(deck_data);
-      
-      const flashcards_response = await fetch(`http://localhost:5000/api/flashcards/${id}`);
-      if (!flashcards_response.ok) throw new Error(`Error fetching flashcards: ${flashcards_response.status}`);
-      const flashcard_data = await flashcards_response.json();
-      setFlashcards(flashcard_data);
+      const deckResponse = await fetch(`http://localhost:5000/api/decks/${id}`);
+      if (!deckResponse.ok) throw new Error(`Error fetching deck: ${deckResponse.status}`);
+      const deckData = await deckResponse.json();
+      setDeck(deckData);
+
+      const flashcardsResponse = await fetch(`http://localhost:5000/api/flashcards/${id}`);
+      if (!flashcardsResponse.ok) throw new Error(`Error fetching flashcards: ${flashcardsResponse.status}`);
+      const flashcardData = await flashcardsResponse.json();
+      setFlashcards(flashcardData);
     } catch (error) {
       console.error('Error fetching deck details:', error);
     }
   };
 
   const addFlashcard = async () => {
-    console.log("Current deck_id:", newCard.deck_id); // Debugging
     if (!newCard.front || !newCard.back) {
       alert('All fields are required.');
       return;
     }
-
     try {
-      const response = await fetch(`http://localhost:5000/api/flashcards/${id}`, {
+      await fetch(`http://localhost:5000/api/flashcards/${id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          deck_id: Number(id), // Ensure deck_id is a number
-          front: newCard.front, 
-          back: newCard.back 
-        }),
+        body: JSON.stringify(newCard),
       });
-
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-      setNewCard({ deck_id: Number(id), front: '', back: '' });  // Reset and ensure deck_id persists
+      setNewCard({ deck_id: Number(id), front: '', back: '' });
       fetchDeckDetails();
     } catch (error) {
       console.error('Error adding flashcard:', error);
@@ -58,22 +49,29 @@ const DeckDetails = () => {
   };
 
   const deleteFlashcard = async (cardId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this flashcard?");
-    if (!confirmDelete) return;
-    
+    if (!window.confirm("Are you sure you want to delete this flashcard?")) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/flashcards/${cardId}`, {
-        method: 'DELETE',
-      });
-  
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-  
-      fetchDeckDetails();  // Refresh the flashcards list after deletion
+      await fetch(`http://localhost:5000/api/flashcards/${cardId}`, { method: 'DELETE' });
+      fetchDeckDetails();
     } catch (error) {
       console.error('Error deleting flashcard:', error);
     }
   };
-  
+
+  const updateFlashcard = async (cardId, updatedCard) => {
+    try {
+      await fetch(`http://localhost:5000/api/flashcards/${cardId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedCard),
+      });
+      setEditingCard(null);
+      fetchDeckDetails();
+    } catch (error) {
+      console.error('Error updating flashcard:', error);
+    }
+  };
+
   return (
     <div className="deck-details-container">
       <header className="deck-header">
@@ -99,9 +97,33 @@ const DeckDetails = () => {
       <section className="flashcard-list">
         {flashcards.map((card) => (
           <div key={card.id} className="flashcard-item">
-            <p><strong>Q:</strong> {card.front}</p>
-            <p><strong>A:</strong> {card.back}</p>
-            <button onClick={() => deleteFlashcard(card.id)}>Delete</button>
+            {editingCard === card.id ? (
+              <>
+                <textarea
+                  rows="1"
+                  cols="35"
+                  value={card.front}
+                  onChange={(e) => setFlashcards(
+                    flashcards.map(c => c.id === card.id ? { ...c, front: e.target.value } : c))}
+                />
+                <textarea
+                  rows="8"
+                  cols="35"
+                  value={card.back}
+                  onChange={(e) => setFlashcards(
+                    flashcards.map(c => c.id === card.id ? { ...c, back: e.target.value } : c))}
+                />
+                <br></br>
+                <button onClick={() => updateFlashcard(card.id, card)}>Save</button>
+              </>
+            ) : (
+              <>
+                <p><strong>Q:</strong> {card.front}</p>
+                <p><strong>A:</strong> {card.back}</p>
+                <button onClick={() => setEditingCard(card.id)}>Edit</button>
+                <button onClick={() => deleteFlashcard(card.id)}>Delete</button>
+              </>
+            )}
           </div>
         ))}
       </section>

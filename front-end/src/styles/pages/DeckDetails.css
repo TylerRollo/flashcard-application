@@ -75,9 +75,11 @@
     cursor: pointer;
     background-color: #F44336;
     color: white;
+    margin: 5px;
+    border: 1px solid #000000;
   }
   
   .flashcard-item button:hover {
     background-color: #D32F2F;
   }
-  
+

@@ -6,6 +6,8 @@ import "../styles/pages/Decks.css";
 const Decks = () => {
   const [decks, setDecks] = useState([]);
   const [newDeckName, setNewDeckName] = useState("");
+  const [editingDeckId, setEditingDeckId] = useState(null);
+  const [editedDeckName, setEditedDeckName] = useState("");
   const userId = 1; // 🔹 Hardcoded user ID (Replace with actual user authentication system)
 
   useEffect(() => {
@@ -57,6 +59,42 @@ const Decks = () => {
     }
   };
 
+  const startEditing = (deckId, currentName) => {
+    setEditingDeckId(deckId);
+    setEditedDeckName(currentName);
+  };
+
+  const cancelEditing = () => {
+    setEditingDeckId(null);
+    setEditedDeckName("");
+  };
+
+  const updateDeckName = async (deckId) => {
+    if (!editedDeckName.trim()) {
+      alert("Deck name cannot be empty.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/decks/${deckId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: editedDeckName }),
+      });
+
+      if (response.ok) {
+        setEditingDeckId(null);
+        fetchDecks();
+      } else {
+        const errorData = await response.json();
+        console.error("Error updating deck name:", errorData);
+        alert(errorData.error || "Failed to update deck.");
+      }
+    } catch (error) {
+      console.error("Error updating deck name:", error);
+    }
+  };
+
   return (
     <div className="decks-container">
       <header className="decks-header">
@@ -77,10 +115,28 @@ const Decks = () => {
       <section className="deck-list">
         {decks.map((deck) => (
           <div key={deck.id} className="deck-item">
-            <Link to={`/decks/${deck.id}`}>
-              <h2>{deck.name}</h2>
-            </Link>
-            <button onClick={() => deleteDeck(deck.id)}>Delete Deck</button>
+            {editingDeckId === deck.id ? (
+              <div className="edit-mode">
+                <textarea
+                  rows="4"
+                  cols="35"
+                  type="text"
+                  value={editedDeckName}
+                  onChange={(e) => setEditedDeckName(e.target.value)}
+                />
+                <br></br>
+                <button onClick={() => updateDeckName(deck.id)}>Save</button>
+                <button onClick={cancelEditing}>Cancel</button>
+              </div>
+            ) : (
+              <>
+                <Link to={`/decks/${deck.id}`}>
+                  <h2>{deck.name}</h2>
+                </Link>
+                <button onClick={() => startEditing(deck.id, deck.name)}>Edit</button>
+                <button onClick={() => deleteDeck(deck.id)}>Delete</button>
+              </>
+            )}
           </div>
         ))}
       </section>
