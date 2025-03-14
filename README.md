@@ -76,14 +76,16 @@ npm start
 ## 📡 API Endpoints
 
 ### **Decks**
-- `GET /api/decks` – Fetch all decks
+- `GET /api/decks` – Fetch all deck
+- `GET /api/decks/:id` - Fetch a single deck by id
 - `POST /api/decks` – Create a new deck
 - `DELETE /api/decks/:id` – Delete a deck
+- `PUT /api/decks/:id` - Update deck name/description
 
 ### **Cards**
-- `GET /api/decks/:deckId/cards` – Get cards from a deck
-- `POST /api/decks/:deckId/cards` – Add a card to a deck
-- `DELETE /api/decks/:deckId/cards/:cardId` – Delete a card
+- `GET /api/flashcards/:deckId` – Get cards from a deck
+- `POST /api/flashcards/:deckId` – Add a card to a deck
+- `DELETE /api/flashcards/:deckId` – Delete a card
 
 ---
 
