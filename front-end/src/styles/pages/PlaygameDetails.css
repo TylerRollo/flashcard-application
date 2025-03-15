@@ -11,6 +11,7 @@
   transition: background 0.5s ease-in-out;
 }
 
+/* Header */
 .playgame-header h1 {
   font-size: 2rem;
   font-weight: bold;
@@ -21,9 +22,10 @@
 
 /* Flashcard container */
 .flashcard-container {
-  width: 320px;
-  height: 220px;
+  width: 480px;  /* Increased width */
+  height: 320px; /* Increased height */
   perspective: 1000px;
+  margin-bottom: 30px; /* Added space below the flashcard */
 }
 
 /* Flashcard styling */
@@ -61,8 +63,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  font-size: 1.2rem;
+  padding: 30px; /* Increased padding for better readability */
+  font-size: 1.5rem; /* Larger text */
   font-weight: bold;
   transition: opacity 0.3s ease;
 }
@@ -80,8 +82,8 @@
 /* Next button */
 .next-button {
   margin-top: 20px;
-  padding: 12px 24px;
-  font-size: 1rem;
+  padding: 14px 28px;
+  font-size: 1.2rem;
   font-weight: bold;
   background: #ff6b6b;
   color: white;
@@ -89,6 +91,7 @@
   border-radius: 12px;
   cursor: pointer;
   transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  z-index: 10; /* Ensures button is above other elements */
 }
 
 .next-button:hover {
