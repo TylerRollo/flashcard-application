@@ -69,14 +69,9 @@
   transition: opacity 0.3s ease;
 }
 
-/* Answer side of flashcard */
-.flashcard-answer {
+/* Back of the Flashcard */
+.flashcard .back {
   transform: rotateY(180deg);
-  opacity: 0;
-}
-
-.flashcard.flipped .flashcard-answer {
-  opacity: 1;
 }
 
 /* Next button */

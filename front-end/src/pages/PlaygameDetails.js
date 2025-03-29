@@ -1,4 +1,3 @@
-// src/pages/PlaygameDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import "../styles/pages/PlaygameDetails.css";
@@ -84,12 +83,12 @@ const PlaygameDetails = () => {
         {currentCard ? (
           <div
             className={`flashcard ${showAnswer ? 'flipped' : ''}`}
-            onClick={!showAnswer ? () => setShowAnswer(true) : null}
+            onClick={() => setShowAnswer(!showAnswer)}
           >
-            <div className="flashcard-content">
+            <div className="flashcard-content front">
               <p><strong>Q:</strong> {currentCard.front}</p>
             </div>
-            <div className="flashcard-content flashcard-answer">
+            <div className="flashcard-content back">
               <p><strong>A:</strong> {currentCard.back}</p>
             </div>
           </div>
