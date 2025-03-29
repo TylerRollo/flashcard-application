@@ -7,8 +7,10 @@ const PlaygameDetails = () => {
   const { id } = useParams();
   const [deck, setDeck] = useState(null);
   const [flashcards, setFlashcards] = useState([]);
+  const [remainingCards, setRemainingCards] = useState([]);
   const [currentCard, setCurrentCard] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(1);
 
   useEffect(() => {
     fetchDeckDetails();
@@ -20,53 +22,63 @@ const PlaygameDetails = () => {
       new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out")), timeout))
     ]);
   };
-  
+
   const fetchDeckDetails = async () => {
     try {
       const deckResponse = await fetchWithTimeout(`http://localhost:5000/api/decks/${id}`);
       if (!deckResponse.ok) throw new Error(`Error fetching deck: ${deckResponse.status}`);
       const deckData = await deckResponse.json();
       setDeck(deckData);
-  
+
       const flashcardsResponse = await fetchWithTimeout(`http://localhost:5000/api/flashcards/${id}`);
       if (!flashcardsResponse.ok) throw new Error(`Error fetching flashcards: ${flashcardsResponse.status}`);
       const flashcardData = await flashcardsResponse.json();
       setFlashcards(flashcardData);
-      pickRandomCard(flashcardData);
+      
+      resetDeck(flashcardData);
     } catch (error) {
       console.error('Error fetching deck details:', error);
-      alert(error.message); // Show an alert for the user
-    }
-  };
-  
-
-  const pickRandomCard = (cards) => {
-    if (cards.length > 0) {
-      const randomIndex = Math.floor(Math.random() * cards.length);
-      setCurrentCard(cards[randomIndex]);
-      setShowAnswer(false);
+      alert(error.message);
     }
   };
 
-  const handleCardClick = () => {
-    setShowAnswer(true);
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  const resetDeck = (cards) => {
+    const shuffledCards = shuffleArray([...cards]);
+    setRemainingCards(shuffledCards);
+    setCurrentCard(shuffledCards.length > 0 ? shuffledCards[0] : null);
+    setCurrentIndex(1);
+    setShowAnswer(false);
   };
 
   const handleNextCard = () => {
-    pickRandomCard(flashcards);
+    if (remainingCards.length > 1) {
+      const newRemaining = [...remainingCards.slice(1)];
+      setRemainingCards(newRemaining);
+      setCurrentCard(newRemaining[0]);
+      setCurrentIndex(currentIndex + 1);
+      setShowAnswer(false);
+    } else {
+      alert("You've gone through all the flashcards!");
+      resetDeck(flashcards);
+    }
   };
 
   return (
     <div className="playgame-container">
       <header className="playgame-header">
         <h1>{deck ? deck.name : 'Loading...'}</h1>
+        <div className="card-counter">{currentIndex} / {flashcards.length}</div>
       </header>
 
       <section className="flashcard-container">
         {currentCard ? (
           <div
             className={`flashcard ${showAnswer ? 'flipped' : ''}`}
-            onClick={!showAnswer ? handleCardClick : null}
+            onClick={!showAnswer ? () => setShowAnswer(true) : null}
           >
             <div className="flashcard-content">
               <p><strong>Q:</strong> {currentCard.front}</p>

@@ -8,6 +8,7 @@ body {
 
 .home-container {
   text-align: center;
+  background-color: #ff9a9e;
   font-family: 'Arial', sans-serif;
   padding: 20px;
   min-height: 100vh; /* Ensure container covers the full height of the viewport */

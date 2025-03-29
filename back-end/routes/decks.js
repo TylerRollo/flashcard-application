@@ -83,4 +83,6 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// TODO: Add a delete all button with TWO confirmations
+
 export default router;

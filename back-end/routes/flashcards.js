@@ -54,5 +54,32 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// TODO: Add a delete all button with TWO confirmations
+
+/** 🟢 UPDATE a flashcard */
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { front, back } = req.body;
+
+  if (!front || !back) {
+    return res.status(400).json({ error: 'Both front and back fields are required' });
+  }
+
+  try {
+    const [result] = await pool.query(
+      'UPDATE flashcards SET front = ?, back = ? WHERE id = ?',
+      [front, back, id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Flashcard not found' });
+    }
+
+    res.json({ message: 'Flashcard updated successfully' });
+  } catch (error) {
+    console.error('Error updating flashcard:', error);
+    res.status(500).json({ error: 'Database error when updating flashcard' });
+  }
+});
 
 export default router;

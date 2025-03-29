@@ -1,4 +1,3 @@
-// src/pages/DeckDetails.js
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import "../styles/pages/DeckDetails.css";
@@ -95,8 +94,9 @@ const DeckDetails = () => {
       </section>
 
       <section className="flashcard-list">
-        {flashcards.map((card) => (
+        {flashcards.map((card, index) => (
           <div key={card.id} className="flashcard-item">
+            <div className="flashcard-number">{index + 1}</div>
             {editingCard === card.id ? (
               <>
                 <textarea

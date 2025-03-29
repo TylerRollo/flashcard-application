@@ -1,12 +1,22 @@
 /* src/styles/DeckDetails.css */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #ff9a9e; /* Ensure full-page background */
+}
+
 .deck-details-container {
+  min-height: 100vh; /* Ensures the container takes up the full viewport height */
   text-align: center;
+  background-color: #ff9a9e;
   font-family: Arial, sans-serif;
   padding: 20px;
+  height: 100%
 }
 
 .deck-header {
-  background-color: #FF9800;
+  background-color: #4CAF50;
   color: white;
   padding: 40px 20px;
   border-radius: 10px;
@@ -38,7 +48,7 @@
 }
 
 .flashcard-form button {
-  background-color: #FF9800;
+  background-color: #4CAF50;
   color: white;
   border: none;
   cursor: pointer;
@@ -64,7 +74,16 @@
   border-radius: 10px;
   width: 300px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  position: relative;
+}
+
+.flashcard-number {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-weight: bold;
+  color: black;
+  font-size: 1.1em;
 }
 
 .flashcard-item p {

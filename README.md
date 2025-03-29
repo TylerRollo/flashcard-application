@@ -115,3 +115,13 @@ This project is open-source under the [MIT License](LICENSE).
 ## 👨‍💻 Author 
 [GitHub](https://github.com/TylerRollo) | [LinkedIn](https://linkedin.com/in/tyler-rollo)
 
+
+## TODO:
+- able to switch the side of the card you are looking at (question and answer) and keep the next card button up
+- add delete all feature (decks and cards)
+- export and import cards by JSON format
+- ability to choose which cards out of a deck to use
+- test knowledge of cards only once during a session
+- manually say which cards you got right or not
+- have a screen that shows stats at the end of completing a deck
+- xx/xx way through a deck AND progress bar at top of screen
