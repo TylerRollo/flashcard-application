@@ -69,8 +69,14 @@ const PlaygameDetails = () => {
 
   return (
     <div className="playgame-container">
+      <h1>{deck ? deck.name : 'Loading...'}</h1>
+      <div className="progress-bar-container">
+          <div 
+            className="progress-bar" 
+            style={{ width: `${(currentIndex / flashcards.length) * 100}%` }}
+          ></div>
+        </div>
       <header className="playgame-header">
-        <h1>{deck ? deck.name : 'Loading...'}</h1>
         <div className="card-counter">{currentIndex} / {flashcards.length}</div>
       </header>
 
