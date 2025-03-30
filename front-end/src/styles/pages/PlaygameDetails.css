@@ -190,3 +190,22 @@
   color: white;
   text-align: center;
 }
+
+.end-session-button {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto;
+  padding: 12px 20px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.end-session-button:hover {
+  background-color: #c9302c;
+}

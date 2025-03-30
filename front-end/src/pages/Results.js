@@ -6,7 +6,7 @@ import "../styles/pages/Results.css";
 const Results = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { correct, incorrect, deckId } = location.state || { correct: 0, incorrect: 0, deckId: null };
+  const { correct, incorrect, deckId, incorrectCards } = location.state || { correct: 0, incorrect: 0, deckId: null, incorrectCards: [] };
 
   const total = correct + incorrect;
   const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
@@ -29,6 +29,20 @@ const Results = () => {
         <p><strong>Incorrect:</strong> {incorrect}</p>
         <p><strong>Accuracy:</strong> {percentage}%</p>
       </section>
+
+      {incorrectCards.length > 0 && (
+        <section className="incorrect-answers">
+          <h2>❌ Incorrect Answers</h2>
+          <ul>
+            {incorrectCards.map((card, index) => (
+              <li key={index} className="incorrect-card">
+                <p><strong>Q:</strong> {card.front}</p>
+                <p><strong>A:</strong> {card.back}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <footer className="results-actions">
         <button className="retry-button" onClick={() => navigate(`/playgame/${deckId}`)}>
