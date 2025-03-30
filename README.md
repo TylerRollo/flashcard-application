@@ -120,5 +120,3 @@ This project is open-source under the [MIT License](LICENSE).
 - add delete all feature (decks and cards)
 - export and import cards by JSON format
 - ability to choose which cards out of a deck to use
-- manually say which cards you got right or not
-- have a screen that shows stats at the end of completing a deck

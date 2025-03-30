@@ -1,5 +1,6 @@
 // src/pages/Home.js
 import React from "react";
+import { Link } from "react-router-dom";
 import "../styles/pages/Home.css"; // Importing CSS for styling
 
 const Home = () => {
@@ -31,7 +32,9 @@ const Home = () => {
 
       <footer className="cta">
         <p>Ready to start learning?</p>
-        <button className="get-started">Get Started</button>
+        <Link to = "/signup">
+          <button className="get-started">Get Started</button>
+        </Link>
       </footer>
     </div>
   );
