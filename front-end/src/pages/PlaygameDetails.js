@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import "../styles/pages/PlaygameDetails.css";
 
 const PlaygameDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [deck, setDeck] = useState(null);
   const [flashcards, setFlashcards] = useState([]);
@@ -10,6 +11,8 @@ const PlaygameDetails = () => {
   const [currentCard, setCurrentCard] = useState(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(1);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
 
   useEffect(() => {
     fetchDeckDetails();
@@ -53,7 +56,13 @@ const PlaygameDetails = () => {
     setShowAnswer(false);
   };
 
-  const handleNextCard = () => {
+  const handleAnswer = (isCorrect) => {
+    if (isCorrect) {
+      setCorrectCount((prev) => prev + 1);
+    } else {
+      setIncorrectCount((prev) => prev + 1);
+    }
+
     if (remainingCards.length > 1) {
       const newRemaining = [...remainingCards.slice(1)];
       setRemainingCards(newRemaining);
@@ -61,8 +70,9 @@ const PlaygameDetails = () => {
       setCurrentIndex(currentIndex + 1);
       setShowAnswer(false);
     } else {
-      alert("You've gone through all the flashcards!");
-      resetDeck(flashcards);
+      navigate("/results", {
+        state: { correct: correctCount + (isCorrect ? 1 : 0), incorrect: incorrectCount + (isCorrect ? 0 : 1), deckId: id }
+      });
     }
   };
 
@@ -96,10 +106,13 @@ const PlaygameDetails = () => {
           <p>Loading flashcards...</p>
         )}
       </section>
-
-      {showAnswer && (
-        <button className="next-button" onClick={handleNextCard}>Next Card</button>
-      )}
+        {showAnswer && (
+          <div className="button-container">
+            <label className="answer-label">Did you get that answer correct?</label>
+            <button className="correct-button" onClick={() => handleAnswer(true)}>✔️ Correct</button>
+            <button className="incorrect-button" onClick={() => handleAnswer(false)}>✖️ Incorrect</button>
+          </div>
+        )}
     </div>
   );
 };

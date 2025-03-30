@@ -8,6 +8,7 @@ import Decks from './pages/Decks';
 import DeckDetails from './pages/DeckDetails';  // Import DeckDetails
 import Playgame from "./pages/Playgame"
 import PlaygameDetails from './pages/PlaygameDetails';
+import Results from "./pages/Results";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/decks/:id" element={<DeckDetails />} /> {/* Add this route for deck details */}
         <Route path="/playgame" element={<Playgame />} />
         <Route path="/playgame/:id" element={<PlaygameDetails />} />
+        <Route path="/results" element={<Results />} />
       </Routes>
     </Router>
   );

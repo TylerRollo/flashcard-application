@@ -131,3 +131,62 @@
   width: 0%; /* This will be dynamically updated */
   transition: width 0.3s ease-in-out;
 }
+
+/* src/styles/pages/PlaygameDetails.css */
+.study-container {
+  text-align: center;
+  background-color: #ff9a9e;
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.study-header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 50px 20px;
+  border-radius: 15px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.study-actions {
+  margin-top: 30px;
+}
+
+.correct-button, .incorrect-button {
+  color: white;
+  padding: 12px 25px;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.correct-button {
+  background-color: #4CAF50;
+}
+
+.correct-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.incorrect-button {
+  background-color: #f44336;
+}
+
+.incorrect-button:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
+}
+
+.answer-label {
+  display: block;
+  font-size: 1.3em;
+  font-weight: bold;
+  margin: 20px;
+  color: white;
+  text-align: center;
+}
