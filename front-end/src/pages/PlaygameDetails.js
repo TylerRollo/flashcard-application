@@ -59,13 +59,23 @@ const PlaygameDetails = () => {
   };
 
   const handleAnswer = (isCorrect) => {
+    // Update correct and incorrect counts immediately within this function
+    let updatedCorrectCount = correctCount;
+    let updatedIncorrectCount = incorrectCount;
+    let updatedIncorrectCards = [...incorrectCards];
+  
     if (isCorrect) {
-      setCorrectCount((prev) => prev + 1);
+      updatedCorrectCount += 1;
     } else {
-      setIncorrectCount((prev) => prev + 1);
-      setIncorrectCards((prev) => [...prev, currentCard]); // Store incorrect card
+      updatedIncorrectCount += 1;
+      updatedIncorrectCards.push(currentCard); // Store the incorrect card
     }
-
+  
+    // Update the state directly using the updated values
+    setCorrectCount(updatedCorrectCount);
+    setIncorrectCount(updatedIncorrectCount);
+    setIncorrectCards(updatedIncorrectCards);
+  
     if (remainingCards.length > 1) {
       const newRemaining = [...remainingCards.slice(1)];
       setRemainingCards(newRemaining);
@@ -73,20 +83,21 @@ const PlaygameDetails = () => {
       setCurrentIndex(currentIndex + 1);
       setShowAnswer(false);
     } else {
-      navigateToResults(isCorrect);
+      navigateToResults(updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards);
     }
   };
-
-  const navigateToResults = (isCorrect) => {
+  
+  const navigateToResults = (updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards) => {
     navigate("/results", {
       state: {
-        correct: correctCount + (isCorrect ? 1 : 0),
-        incorrect: incorrectCount + (isCorrect ? 0 : 1),
+        correct: updatedCorrectCount,
+        incorrect: updatedIncorrectCount,
         deckId: id,
-        incorrectCards: incorrectCards,
+        incorrectCards: updatedIncorrectCards, // Pass updated incorrect cards
       },
     });
   };
+  
 
   const endSessionImmediately = () => {
     const unansweredIncorrectCards = remainingCards.filter((card) => !incorrectCards.includes(card));
