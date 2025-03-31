@@ -9,6 +9,7 @@ import DeckDetails from './pages/DeckDetails';  // Import DeckDetails
 import Playgame from "./pages/Playgame"
 import PlaygameDetails from './pages/PlaygameDetails';
 import Results from "./pages/Results";
+import UploadCSV from "./pages/FastAdd"; // Import the UploadCSV component
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/playgame" element={<Playgame />} />
         <Route path="/playgame/:id" element={<PlaygameDetails />} />
         <Route path="/results" element={<Results />} />
+        <Route path="/fastadd" element={<UploadCSV />} /> 
       </Routes>
     </Router>
   );

@@ -117,6 +117,6 @@ This project is open-source under the [MIT License](LICENSE).
 
 
 ## TODO:
-- add delete all feature (decks and cards)
-- export and import cards by JSON format
+- add delete all selected decks or cards feature (decks and cards)
+- make a .csv file of a deck 
 - ability to choose which cards out of a deck to use

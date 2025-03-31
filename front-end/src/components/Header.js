@@ -24,6 +24,9 @@ const Header = () => {
           <li>
             <Link to="/playgame">Play Game</Link>
           </li>
+          <li>
+            <Link to="/fastadd">Fast Add</Link>
+          </li>
         </ul>
 
         {/* Login / Sign Up on the Right */}
