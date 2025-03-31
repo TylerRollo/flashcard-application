@@ -120,3 +120,10 @@ This project is open-source under the [MIT License](LICENSE).
 - add delete all selected decks or cards feature (decks and cards)
 - make a .csv file of a deck 
 - ability to choose which cards out of a deck to use
+- change all alerts to something cleaner
+- format names of Decks to wrap around when name is too long
+
+### Security Checks (TODO:)
+- file types uploads
+- name length bounds
+- 

@@ -3,6 +3,7 @@ import "../styles/pages/FastAdd.css"; // Importing CSS for styling
 
 const UploadCSV = () => {
     const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState("");
     const [deckName, setDeckName] = useState("");
     const [deck, setDeck] = useState(null);
     const [progress, setProgress] = useState(0);
@@ -12,6 +13,8 @@ const UploadCSV = () => {
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
+        setFileName(event.target.files[0].name);
+        setDeckName(event.target.files[0].name.replace(/\.csv$/, ""));
     };
 
     const handleUpload = async () => {
@@ -20,7 +23,7 @@ const UploadCSV = () => {
             return;
         }
         if (!deckName.trim()) {
-            alert("Please enter a deck name.");
+            deckName = setDeckName(file.name.replace(/\.csv$/, ""));
             return;
         }
         
