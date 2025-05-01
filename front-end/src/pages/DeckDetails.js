@@ -101,9 +101,15 @@ const DeckDetails = () => {
   return (
     <div className="deck-details-container">
       <header className="deck-header">
-        <h1>{deck ? deck.name : 'Loading...'}</h1>
-        <button onClick={() => generateJSON()}>Download Deck?</button>
+        <div className="deck-header-top">
+          <h1>{deck ? deck.name : 'Loading...'}</h1>
+          <button className="download-button" onClick={generateJSON}>
+            Download Deck
+          </button>
+        </div>
       </header>
+
+
 
       <section className="flashcard-form">
         <input

@@ -27,6 +27,33 @@ html, body {
   margin-bottom: 10px;
 }
 
+/* ✅ New layout for header content */
+.deck-header-top {
+  display: fixed;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+
+/* ✅ Styled download button */
+.download-button {
+  background-color: #ffffff;
+  color: #4CAF50;
+  padding: 10px 16px;
+  border: 2px solid #ffffff;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.download-button:hover {
+  background-color: #F57C00;
+  color: white;
+  border-color: #F57C00;
+}
+
 .flashcard-form {
   display: flex;
   flex-direction: column;
@@ -104,4 +131,3 @@ html, body {
 .flashcard-item button:hover {
   background-color: #D32F2F;
 }
-

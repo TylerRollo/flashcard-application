@@ -113,8 +113,6 @@ npm start
 
 ## TODO:
 - add delete all selected decks or cards feature (decks and cards)
-- when text gets too large, it wraps around
-- make a .json file of a deck 
 - ability to choose which cards out of a deck to use
 - change all alerts to something cleaner
 - format names of Decks to wrap around when name is too long
