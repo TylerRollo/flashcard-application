@@ -19,7 +19,7 @@ A full-stack flashcard application that allows users to create, manage, and play
 - **React** – Component-based UI
 - **React Router** – Handles navigation
 - **CSS** – Styling
-- **Fetch API / Axios** – Handles API calls
+- **Fetch API** – Handles API calls
 
 ### **Backend:**
 - **Node.js** – JavaScript runtime
@@ -107,17 +107,11 @@ npm start
 
 ---
 
-## 📜 License
-This project is open-source under the [MIT License](LICENSE).
-
----
-
 ## 👨‍💻 Author 
 [GitHub](https://github.com/TylerRollo) | [LinkedIn](https://linkedin.com/in/tyler-rollo)
 
 
 ## TODO:
-- ADD FLIPPING ANIMATIONS WITHOUT PEEKING AT THE ANSWER
 - add delete all selected decks or cards feature (decks and cards)
 - when text gets too large, it wraps around
 - make a .json file of a deck 
