@@ -112,11 +112,10 @@ npm start
 
 
 ## TODO:
-- add delete all selected decks or cards feature (decks and cards)
 - ability to choose which cards out of a deck to use
 - change all alerts to something cleaner
-- format names of Decks to wrap around when name is too long
 - ability to randomize if you see question side first or answer side first
+- add delete all selected decks or cards feature (decks and cards)
 - Session Cookies to keep data
 
 ### Security Checks (TODO:)
