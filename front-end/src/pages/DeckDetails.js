@@ -71,10 +71,38 @@ const DeckDetails = () => {
     }
   };
 
+  const generateJSON = () => {
+    if (!flashcards || flashcards.length === 0) {
+      alert("No flashcards to export.");
+      return;
+    }
+  
+    const jsonData = flashcards.map(card => ({
+      front: card.front,
+      back: card.back
+    }));
+  
+    const jsonString = JSON.stringify(jsonData, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json;charset=utf-8;" });
+    const link = document.createElement("a");
+    const fileName = deck?.name || `deck_${id}`;
+  
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `${fileName}_incorrect_answers.json`);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
   return (
     <div className="deck-details-container">
       <header className="deck-header">
         <h1>{deck ? deck.name : 'Loading...'}</h1>
+        <button onClick={() => generateJSON()}>Download Deck?</button>
       </header>
 
       <section className="flashcard-form">

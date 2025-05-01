@@ -1,10 +1,11 @@
-// src/pages/Decks.js
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/pages/Decks.css";
 
 const Playgame = () => {
   const [decks, setDecks] = useState([]);
+  const [frontFirst, setFrontFirst] = useState(true); // Default to true
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchDecks();
@@ -20,23 +21,41 @@ const Playgame = () => {
     }
   };
 
+  const toggleFrontFirst = () => {
+    setFrontFirst((prev) => {
+      console.log("Toggling frontFirst:", !prev);
+      return !prev;
+    });
+  };
+
+  const handleDeckClick = (deckId) => {
+    console.log(frontFirst);
+    navigate(`/playgame/${deckId}`, { state: { frontFirst } });
+  };
+
   return (
-      <div className="decks-container">
-        <header className="decks-header">
-          <h1>Choose Your Study Deck</h1>
-        </header>
-  
-        <section className="deck-list">
-          {decks.map((deck) => (
-            <div key={deck.id} className="deck-item">
-              <Link to={`/playgame/${deck.id}`}>
-                <h2>{deck.name}</h2>
-              </Link>
-            </div>
-          ))}
-        </section>
-      </div>
-    );
+    <div className="decks-container">
+      <header>
+        <button className="front-first-button" onClick={toggleFrontFirst}>
+          {frontFirst ? "Showing the Question First" : "Showing the Answer First"}
+        </button>
+      </header>
+      <header className="decks-header">
+        <h1>Choose Your Study Deck</h1>
+      </header>
+      <section className="deck-list">
+        {decks.map((deck) => (
+          <div
+            key={deck.id} 
+            className="deck-item" 
+            onClick={() => handleDeckClick(deck.id)} // Navigate on click
+          >
+            <h2>{deck.name}</h2>
+          </div>
+        ))}
+      </section>
+    </div>
+  );
 };
 
 export default Playgame;

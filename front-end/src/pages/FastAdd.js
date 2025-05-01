@@ -9,70 +9,73 @@ const UploadCSV = () => {
     const [progress, setProgress] = useState(0);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadMessage, setUploadMessage] = useState("");
-    const userId = 1; // Hardcoded user ID currently, TODO: Replace with actual user authentication system
+    const userId = 1;
 
     const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
-        setFileName(event.target.files[0].name);
-        setDeckName(event.target.files[0].name.replace(/\.csv$/, ""));
+        const selectedFile = event.target.files[0];
+        if (!selectedFile) {
+            alert("No file selected.");
+            return;
+        }
+        setFile(selectedFile);
+        setFileName(selectedFile.name);
+        setDeckName(selectedFile.name.replace(/\.json$/, ""));
     };
 
     const handleUpload = async () => {
         if (!file) {
-            alert("Please select a CSV file.");
+            alert("Please select a JSON file.");
             return;
         }
-        if (!deckName.trim()) {
-            deckName = setDeckName(file.name.replace(/\.csv$/, ""));
-            return;
-        }
-        
+
+        setIsUploading(true);
+        setProgress(0);
+
         const reader = new FileReader();
+
         reader.onload = async (event) => {
-            setIsUploading(true);
-            setProgress(0);
-            
-            const text = event.target.result;
-            const lines = text.split("\n");
-
-            const newDeck = {
-                name: deckName.trim(),
-                cards: []
-            };
-
-            lines.forEach(line => {
-                const columns = line.split(",");
-                if (columns.length >= 2) {
-                    newDeck.cards.push({ front: columns[0].trim(), back: columns[1].trim() });
-                }
-            });
-            
             try {
+                const textContent = event.target.result;
+                if (!textContent) throw new Error("File is empty or unreadable.");
+                const jsonData = JSON.parse(textContent);
+
+                if (!Array.isArray(jsonData)) {
+                    throw new Error("Invalid JSON format. Expected an array of flashcards.");
+                }
+
+                const newDeck = {
+                    name: deckName.trim(),
+                    cards: jsonData.map(card => ({
+                        front: card.front?.trim() || "",
+                        back: card.back?.trim() || ""
+                    }))
+                };
+
                 const deckResponse = await fetch("http://localhost:5000/api/decks", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ user_id: userId, name: deckName.trim(), description: "" })
                 });
-                
+
                 const deckData = await deckResponse.json();
                 if (!deckResponse.ok) throw new Error(deckData.error);
-                
+
                 const deckId = deckData.deck_id;
-                setProgress(20);
-                
+                setProgress(10); // slight bump for deck creation
+
                 await Promise.all(newDeck.cards.map(async (card, index) => {
                     await fetch(`http://localhost:5000/api/flashcards/${deckId}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ deck_id: deckId, front: card.front, back: card.back })
                     });
-                    setProgress(20 + ((index + 1) / newDeck.cards.length) * 80);
+                    setProgress(10 + ((index + 1) / newDeck.cards.length) * 90); // complete to 100%
                 }));
-                
+
                 setDeck(newDeck);
                 setUploadMessage(`Deck '${deckName}' successfully created with ${newDeck.cards.length} cards!`);
                 setTimeout(() => setUploadMessage(""), 5000);
-                
+
                 setFile(null);
                 setDeckName("");
                 document.querySelector("input[type=file]").value = "";
@@ -82,15 +85,16 @@ const UploadCSV = () => {
                 setTimeout(() => setUploadMessage(""), 5000);
             } finally {
                 setIsUploading(false);
+                setProgress(0);
             }
         };
-        
+
         reader.readAsText(file);
     };
 
     return (
         <div className="upload-container">
-            <h2 className="upload-header">Upload a CSV File</h2>
+            <h2 className="upload-header">Upload a JSON File</h2>
             <div className="upload-form">
                 <label>Deck Name</label>
                 <input
@@ -100,11 +104,13 @@ const UploadCSV = () => {
                     onChange={(e) => setDeckName(e.target.value)}
                 />
                 <label>Select File</label>
-                <input type="file" accept=".csv" onChange={handleFileChange} />
+                <input type="file" accept=".json" onChange={handleFileChange} />
                 <button onClick={handleUpload} disabled={isUploading}>Upload</button>
+
                 {isUploading && (
                     <div className="progress-bar-container">
                         <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                        <p className="progress-text">{Math.floor(progress)}%</p>
                     </div>
                 )}
             </div>

@@ -1,39 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import "../styles/pages/PlaygameDetails.css";
 
 const PlaygameDetails = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { frontFirst } = location.state || { frontFist : false }; // Default to true if not provided
+  console.log("frontFirst value:", frontFirst); // ✅ Log here to check the received value
+  
   const { id } = useParams();
   const [deck, setDeck] = useState(null);
   const [flashcards, setFlashcards] = useState([]);
   const [remainingCards, setRemainingCards] = useState([]);
   const [currentCard, setCurrentCard] = useState(null);
-  const [showAnswer, setShowAnswer] = useState(false);
+  const [showBack, setShowBack] = useState(false); // Determines whether to show the back of the card
   const [currentIndex, setCurrentIndex] = useState(1);
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
-  const [incorrectCards, setIncorrectCards] = useState([]); // Track incorrect cards
+  const [incorrectCards, setIncorrectCards] = useState([]);
 
   useEffect(() => {
     fetchDeckDetails();
   }, [id]);
 
-  const fetchWithTimeout = (url, options = {}, timeout = 30000) => {
-    return Promise.race([
-      fetch(url, options),
-      new Promise((_, reject) => setTimeout(() => reject(new Error("Request timed out")), timeout)),
-    ]);
-  };
-
   const fetchDeckDetails = async () => {
     try {
-      const deckResponse = await fetchWithTimeout(`http://localhost:5000/api/decks/${id}`);
+      const deckResponse = await fetch(`http://localhost:5000/api/decks/${id}`);
       if (!deckResponse.ok) throw new Error(`Error fetching deck: ${deckResponse.status}`);
       const deckData = await deckResponse.json();
       setDeck(deckData);
 
-      const flashcardsResponse = await fetchWithTimeout(`http://localhost:5000/api/flashcards/${id}`);
+      const flashcardsResponse = await fetch(`http://localhost:5000/api/flashcards/${id}`);
       if (!flashcardsResponse.ok) throw new Error(`Error fetching flashcards: ${flashcardsResponse.status}`);
       const flashcardData = await flashcardsResponse.json();
       setFlashcards(flashcardData);
@@ -54,95 +51,83 @@ const PlaygameDetails = () => {
     setRemainingCards(shuffledCards);
     setCurrentCard(shuffledCards.length > 0 ? shuffledCards[0] : null);
     setCurrentIndex(1);
-    setShowAnswer(false);
-    setIncorrectCards([]); // Reset incorrect cards
+    setShowBack(false); // Start with the front side
+    setIncorrectCards([]);
+  };
+
+  const handleCardClick = () => {
+    setShowBack(!showBack); // Toggle between front and back
   };
 
   const handleAnswer = (isCorrect) => {
-    // Update correct and incorrect counts immediately within this function
     let updatedCorrectCount = correctCount;
     let updatedIncorrectCount = incorrectCount;
     let updatedIncorrectCards = [...incorrectCards];
-  
+
     if (isCorrect) {
       updatedCorrectCount += 1;
     } else {
       updatedIncorrectCount += 1;
-      updatedIncorrectCards.push(currentCard); // Store the incorrect card
+      updatedIncorrectCards.push(currentCard);
     }
-  
-    // Update the state directly using the updated values
+
     setCorrectCount(updatedCorrectCount);
     setIncorrectCount(updatedIncorrectCount);
     setIncorrectCards(updatedIncorrectCards);
-  
-    if (remainingCards.length > 1) {
-      const newRemaining = [...remainingCards.slice(1)];
-      setRemainingCards(newRemaining);
-      setCurrentCard(newRemaining[0]);
-      setCurrentIndex(currentIndex + 1);
-      setShowAnswer(false);
-    } else {
-      navigateToResults(updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards);
-    }
+    setShowBack(false); // Reset to front side for the next card
+
+    setTimeout(() => {
+      if (remainingCards.length > 1) {
+        const newRemaining = [...remainingCards.slice(1)];
+        setRemainingCards(newRemaining);
+        setCurrentCard(newRemaining[0]);
+        setCurrentIndex(currentIndex + 1);
+      } else {
+        navigateToResults(updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards);
+      }
+    }, 100); // Delay should match your CSS animation time
   };
+
+  const navigateToResults = (
+    updatedCorrectCount = correctCount,
+    updatedIncorrectCount = incorrectCount,
+    updatedIncorrectCards = incorrectCards
+  ) => {
+    // Add all unseen remaining cards (excluding current) to incorrect
+    const unseenCards = remainingCards.slice(1); // currentCard is already shown
+    const allIncorrectCards = [...updatedIncorrectCards, ...unseenCards];
   
-  const navigateToResults = (updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards) => {
     navigate("/results", {
       state: {
         correct: updatedCorrectCount,
-        incorrect: updatedIncorrectCount,
+        incorrect: updatedIncorrectCount + unseenCards.length,
         deckId: id,
-        incorrectCards: updatedIncorrectCards, // Pass updated incorrect cards
+        incorrectCards: allIncorrectCards,
+        frontFirtst: showBack
       },
     });
   };
   
-
-  const endSessionImmediately = () => {
-    const unansweredIncorrectCards = remainingCards.filter((card) => !incorrectCards.includes(card));
-    setIncorrectCards([...incorrectCards, ...unansweredIncorrectCards]);
-
-    navigate("/results", {
-      state: {
-        correct: correctCount,
-        incorrect: incorrectCount + unansweredIncorrectCards.length,
-        deckId: id,
-        incorrectCards: [...incorrectCards, ...unansweredIncorrectCards],
-      },
-    });
-  };
 
   return (
     <div className="playgame-container">
       <h1>{deck ? deck.name : "Loading..."}</h1>
       <div className="progress-bar-container">
-        <div
-          className="progress-bar"
-          style={{ width: `${(currentIndex / flashcards.length) * 100}%` }}
-        ></div>
+        <div className="progress-bar" style={{ width: `${(currentIndex / flashcards.length) * 100}%` }}></div>
       </div>
       <header className="playgame-header">
-        <div className="card-counter">
-          {currentIndex} / {flashcards.length}
-        </div>
+        <div className="card-counter">{currentIndex} / {flashcards.length}</div>
       </header>
 
       <section className="flashcard-container">
         {currentCard ? (
-          <div
-            className={`flashcard ${showAnswer ? "flipped" : ""}`}
-            onClick={() => setShowAnswer(!showAnswer)}
-          >
-            <div className="flashcard-content front">
-              <p>
-                <strong>Q:</strong> {currentCard.front}
-              </p>
-            </div>
-            <div className="flashcard-content back">
-              <p>
-                <strong>A:</strong> {currentCard.back}
-              </p>
+          <div className="flashcard" onClick={handleCardClick}>
+            <div className="flashcard-content">
+              {showBack ? (
+                <p><strong>A:</strong> {frontFirst ? currentCard.back : currentCard.front}</p>
+              ) : (
+                <p><strong>Q:</strong> {frontFirst ? currentCard.front : currentCard.back}</p>
+              )}
             </div>
           </div>
         ) : (
@@ -150,21 +135,17 @@ const PlaygameDetails = () => {
         )}
       </section>
 
-      {showAnswer && (
-        <div className="button-container">
-          <label className="answer-label">Did you get that answer correct?</label>
-          <button className="correct-button" onClick={() => handleAnswer(true)}>
-            ✔️ Correct
-          </button>
-          <button className="incorrect-button" onClick={() => handleAnswer(false)}>
-            ✖️ Incorrect
-          </button>
+      {showBack && (
+        <div className="answer-section">
+          <div id="answer-label">Did you get that answer correct?</div>
+          <div className="button-container">
+            <button className="correct-button" onClick={() => handleAnswer(true)}>✔️ Correct</button>
+            <button className="incorrect-button" onClick={() => handleAnswer(false)}>✖️ Incorrect</button>
+          </div>
         </div>
       )}
 
-      <button className="end-session-button" onClick={endSessionImmediately}>
-        ⏹️ End Session
-      </button>
+      <button className="end-session-button" onClick={() => navigateToResults()}>⏹️ End Session</button>
     </div>
   );
 };

@@ -133,7 +133,7 @@ const Decks = () => {
                 <Link to={`/decks/${deck.id}`}>
                   <h2>{deck.name}</h2>
                 </Link>
-                <button onClick={() => startEditing(deck.id, deck.name)}>Edit</button>
+                <button onClick={() => startEditing(deck.id, deck.name)}>Edit Name</button>
                 <button onClick={() => deleteDeck(deck.id)}>Delete</button>
               </>
             )}
