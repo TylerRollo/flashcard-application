@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import constants from "../utils/constants"; // Importing constants for validation
 import "../styles/pages/FastAdd.css"; // Importing CSS for styling
 
 const UploadCSV = () => {
@@ -30,10 +31,16 @@ const UploadCSV = () => {
         setDeckName(selectedFile.name.replace(/\.json$/, ""));
     };
 
-    // Handles the actual upload process and deck/flashcard creation
+    // Handles the actual upload process and deck/flashcards creation
     const handleUpload = async () => {
         if (!file) {
             alert("Please select a JSON file.");
+            return;
+        }
+        
+        console.log(deckName.length); 
+        if (deckName.length > constants.MAX_DECK_NAME_LENGTH) {
+            alert(`Deck name cannot exceed ${constants.MAX_DECK_NAME_LENGTH} characters.`);
             return;
         }
 

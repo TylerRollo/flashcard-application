@@ -5,7 +5,6 @@ A full-stack flashcard application that allows users to create, manage, and play
 ---
 
 ## 🚀 Features
-
 - **Create & Manage Decks** – Users can add, edit, and delete flashcard decks.
 - **Play with Flashcards** – Users can test their knowledge by flipping through flashcards.
 - **REST API** – Fetch, create, update, and delete decks/cards.
@@ -112,15 +111,13 @@ npm start
 
 
 ## TODO:
-- set upper and lower limit to characters in cards
+- add delete all selected decks or cards feature (decks and cards)
 - ability to choose which cards out of a deck to use
 - change all alerts to something cleaner
-- add delete all selected decks or cards feature (decks and cards)
 - Session Cookies to keep data
 
 ### Security Checks (TODO:)
 - file types uploads
-- name length bounds
 - uploading to cloud
 - availability
 - db security

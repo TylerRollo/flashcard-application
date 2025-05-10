@@ -81,6 +81,20 @@ html, body {
   cursor: pointer;
 }
 
+
+.flashcard-form .delete-button {
+  background-color: #F44336;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 30%;
+  margin: 20px 0;
+}
+
 .flashcard-form button:hover {
   background-color: #F57C00;
 }
@@ -117,6 +131,11 @@ html, body {
   margin: 5px 0;
 }
 
+.flashcard-buttons {
+  margin-top: 10px;
+  text-align: right; /* or left, depending on your layout preference */
+}
+
 .flashcard-item button {
   padding: 5px 10px;
   border: none;
@@ -130,4 +149,62 @@ html, body {
 
 .flashcard-item button:hover {
   background-color: #D32F2F;
+}
+
+/* ✅ Checkbox for selecting flashcards */
+.flashcard-checkbox {
+  position: absolute;
+  justify-content: flex-start;
+  top: 10px;
+  left: 10px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* ✅ Multi-delete bar at top of deck */
+.multi-delete-bar {
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.multi-delete-bar button {
+  background-color: #F44336;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.multi-delete-bar button:hover {
+  background-color: #D32F2F;
+}
+
+/* ✅ Checkbox for selecting flashcards */
+.select-checkbox {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin: 5px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.delete-button {
+  background-color: #F44336;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 30%;
+  margin: 20px 0;
+}
+
+.delete-button:hover {
+  background-color: #D32F2F; /* Slightly darker on hover for feedback */
 }

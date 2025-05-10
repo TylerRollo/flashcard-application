@@ -114,6 +114,16 @@
   width: 100%;
 }
 
+.deck-checkbox {
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  accent-color: #4CAF50; /* Optional: adds a green color to the checkbox if supported */
+  margin-right: 10px;
+  transform: scale(1.5); /* Additional scale if you want it even bigger */
+}
+
+
 .deck-form button:hover {
   background-color: #45a049;
 }
@@ -124,4 +134,26 @@
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
+}
+
+.bulk-delete-btn {
+  background-color: #F44336;
+  color: white;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 30%;
+  margin: 20px 0;
+}
+
+.bulk-delete-btn:hover {
+  background-color: #F44336;
+}
+
+.deck-top {
+  display: flex;
+  justify-content: flex-start;
 }
