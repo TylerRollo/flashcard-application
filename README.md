@@ -112,7 +112,8 @@ npm start
 
 
 ## TODO:
-- clean up code, take out redundant code (.js and .css), organize code. 
+- clean up code, take out redundant code (.js and .css), organize code.
+- set upper and lower limit to characters in cards
 - ability to choose which cards out of a deck to use
 - change all alerts to something cleaner
 - add delete all selected decks or cards feature (decks and cards)

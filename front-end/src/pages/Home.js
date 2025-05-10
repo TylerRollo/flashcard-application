@@ -1,16 +1,20 @@
 // src/pages/Home.js
+
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Importing Link for internal navigation
 import "../styles/pages/Home.css"; // Importing CSS for styling
 
+// Functional component for the Home page
 const Home = () => {
   return (
     <div className="home-container">
+      {/* Hero header section with welcome message */}
       <header className="hero">
         <h1>Welcome to FlashCard Learn</h1>
         <p>Your flashcard app for smarter learning FOR FREE!</p>
       </header>
       
+      {/* Features section highlighting key app benefits */}
       <section className="features">
         <div className="feature-card">
           <h2>📚 Study Smarter</h2>
@@ -30,9 +34,10 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Call-to-action section with navigation to signup page */}
       <footer className="cta">
         <p>Ready to start learning?</p>
-        <Link to = "/signup">
+        <Link to="/signup">
           <button className="get-started">Get Started</button>
         </Link>
       </footer>
@@ -40,4 +45,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home; // Exporting the component to be used in routing
