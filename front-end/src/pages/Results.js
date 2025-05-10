@@ -43,7 +43,6 @@ const Results = () => {
     }
 };
 
-
   return (
     <div className="results-container">
       <header className="results-hero">

@@ -112,9 +112,9 @@ npm start
 
 
 ## TODO:
+- clean up code, take out redundant code (.js and .css), organize code. 
 - ability to choose which cards out of a deck to use
 - change all alerts to something cleaner
-- ability to randomize if you see question side first or answer side first
 - add delete all selected decks or cards feature (decks and cards)
 - Session Cookies to keep data
 

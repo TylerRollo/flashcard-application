@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import testModes from "../utils/testModes";
 import "../styles/pages/Decks.css";
 
 const Playgame = () => {
   const [decks, setDecks] = useState([]);
-  const [frontFirst, setFrontFirst] = useState(true); // Default to true
+  const [testMode, setTestMode] = useState(testModes.FRONT_FIRST);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,35 +21,52 @@ const Playgame = () => {
       console.error("Error fetching decks:", error);
     }
   };
-
-  const toggleFrontFirst = () => {
-    setFrontFirst((prev) => {
-      console.log("Toggling frontFirst:", !prev);
-      return !prev;
-    });
+  
+  const handleDeckClick = (deckId) => {
+    navigate(`/playgame/${deckId}`, { state: { testMode } });
+    console.log("navigating to deck:", deckId, "With test mode:", testMode);
   };
 
-  const handleDeckClick = (deckId) => {
-    console.log(frontFirst);
-    navigate(`/playgame/${deckId}`, { state: { frontFirst } });
+  const handleTestModeChange = (mode) => {
+    setTestMode(mode);
   };
 
   return (
     <div className="decks-container">
       <header>
-        <button className="front-first-button" onClick={toggleFrontFirst}>
-          {frontFirst ? "Showing the Question First" : "Showing the Answer First"}
-        </button>
+        <ul>
+          <button
+            className={`test-button ${testMode === 'front-first' ? 'active' : ''}`}
+            onClick={() => handleTestModeChange(testModes.FRONT_FIRST)}
+          >
+            Show: Front | Back
+          </button>
+          <button
+            className={`test-button ${testMode === 'back-first' ? 'active' : ''}`}
+            onClick={() => handleTestModeChange(testModes.BACK_FIRST)}
+          >
+            Show: Back | Front
+          </button>
+          <button
+            className={`test-button ${testMode === 'random' ? 'active' : ''}`}
+            onClick={() => handleTestModeChange(testModes.RANDOM)}
+          >
+            Randomize Front or Back
+          </button>
+        </ul>
+
       </header>
+
       <header className="decks-header">
         <h1>Choose Your Study Deck</h1>
       </header>
+
       <section className="deck-list">
         {decks.map((deck) => (
           <div
-            key={deck.id} 
-            className="deck-item" 
-            onClick={() => handleDeckClick(deck.id)} // Navigate on click
+            key={deck.id}
+            className="deck-item"
+            onClick={() => handleDeckClick(deck.id)}
           >
             <h2>{deck.name}</h2>
           </div>

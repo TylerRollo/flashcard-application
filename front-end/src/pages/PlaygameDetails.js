@@ -1,26 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import testModes from "../utils/testModes";
 import "../styles/pages/PlaygameDetails.css";
 
 const PlaygameDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { frontFirst } = location.state || { frontFist : false }; // Default to true if not provided
-  console.log("frontFirst value:", frontFirst); // ✅ Log here to check the received value
+  const testMode = location.state?.testMode || testModes.FRONT_FIRST; // Default to FRONT_FIRST if not provided
   
+  // Deck details
   const { id } = useParams();
   const [deck, setDeck] = useState(null);
   const [flashcards, setFlashcards] = useState([]);
+
+  // Card details
   const [remainingCards, setRemainingCards] = useState([]);
   const [currentCard, setCurrentCard] = useState(null);
-  const [showBack, setShowBack] = useState(false); // Determines whether to show the back of the card
   const [currentIndex, setCurrentIndex] = useState(1);
   const [correctCount, setCorrectCount] = useState(0);
   const [incorrectCount, setIncorrectCount] = useState(0);
   const [incorrectCards, setIncorrectCards] = useState([]);
 
+  // State controls
+  const [showBack, setShowBack] = useState(false);
+  const [showNext, setShowNext] = useState(false);
+
   useEffect(() => {
     fetchDeckDetails();
+    setCardFace();
   }, [id]);
 
   const fetchDeckDetails = async () => {
@@ -42,22 +49,27 @@ const PlaygameDetails = () => {
     }
   };
 
-  const shuffleArray = (array) => {
-    return array.sort(() => Math.random() - 0.5);
-  };
-
   const resetDeck = (cards) => {
     const shuffledCards = shuffleArray([...cards]);
     setRemainingCards(shuffledCards);
     setCurrentCard(shuffledCards.length > 0 ? shuffledCards[0] : null);
     setCurrentIndex(1);
-    setShowBack(false); // Start with the front side
     setIncorrectCards([]);
   };
 
-  const handleCardClick = () => {
-    setShowBack(!showBack); // Toggle between front and back
+  const setCardFace = () => {
+    if (testMode === testModes.FRONT_FIRST) { setShowBack(false); }
+    else if (testMode === testModes.BACK_FIRST) { setShowBack(true);}
+    else if (testMode === testModes.RANDOM) {
+      const randomFace = Math.random() < 0.5 ? false : true;
+      setShowBack(randomFace);
+    }
   };
+
+  const handleCardClick = () => {
+    setShowBack(!showBack);
+    setShowNext(!showNext);
+  }
 
   const handleAnswer = (isCorrect) => {
     let updatedCorrectCount = correctCount;
@@ -74,18 +86,23 @@ const PlaygameDetails = () => {
     setCorrectCount(updatedCorrectCount);
     setIncorrectCount(updatedIncorrectCount);
     setIncorrectCards(updatedIncorrectCards);
-    setShowBack(false); // Reset to front side for the next card
+    setShowBack(!showBack);
+    setShowNext(!showNext);
 
-    setTimeout(() => {
-      if (remainingCards.length > 1) {
-        const newRemaining = [...remainingCards.slice(1)];
-        setRemainingCards(newRemaining);
-        setCurrentCard(newRemaining[0]);
-        setCurrentIndex(currentIndex + 1);
-      } else {
-        navigateToResults(updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards);
-      }
-    }, 100); // Delay should match your CSS animation time
+    if (remainingCards.length > 1) {
+      const newRemaining = [...remainingCards.slice(1)];
+      setRemainingCards(newRemaining);
+      setCurrentCard(newRemaining[0]);
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      navigateToResults(updatedCorrectCount, updatedIncorrectCount, updatedIncorrectCards);
+    };
+    
+    setCardFace(testMode);
+  };
+
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
   };
 
   const navigateToResults = (
@@ -103,7 +120,6 @@ const PlaygameDetails = () => {
         incorrect: updatedIncorrectCount + unseenCards.length,
         deckId: id,
         incorrectCards: allIncorrectCards,
-        frontFirtst: showBack
       },
     });
   };
@@ -123,10 +139,10 @@ const PlaygameDetails = () => {
         {currentCard ? (
           <div className="flashcard" onClick={handleCardClick}>
             <div className="flashcard-content">
-              {showBack ? (
-                <p><strong>A:</strong> {frontFirst ? currentCard.back : currentCard.front}</p>
+            {showBack ? (
+                <p><strong></strong> {currentCard.back}</p>
               ) : (
-                <p><strong>Q:</strong> {frontFirst ? currentCard.front : currentCard.back}</p>
+                <p><strong></strong> {currentCard.front}</p>
               )}
             </div>
           </div>
@@ -135,7 +151,7 @@ const PlaygameDetails = () => {
         )}
       </section>
 
-      {showBack && (
+      {showNext && (
         <div className="answer-section">
           <div id="answer-label">Did you get that answer correct?</div>
           <div className="button-container">
