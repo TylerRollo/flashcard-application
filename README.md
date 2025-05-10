@@ -111,8 +111,7 @@ npm start
 
 
 ## TODO:
-- ability to choose which cards out of a deck to use
-- Session Cookies to keep data
+- Session Cookies to keep data (get rid of navigate and sending variables that way.)
 
 ### Security Checks (TODO:)
 - file types uploads
