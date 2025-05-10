@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import constants from '../utils/constants';
 import "../styles/pages/DeckDetails.css";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // Component for displaying and managing a deck and its flashcards
 const DeckDetails = () => {
@@ -35,15 +38,19 @@ const DeckDetails = () => {
 
   const addFlashcard = async () => {
     if (!newCard.front || !newCard.back) {
-      alert('All fields are required.');
+      toast.error('All fields are required.');
       return;
     }
-    if (constants.MAX_FLASHCARD_NAME_LENGTH < newCard.front.length
-      || constants.MAX_FLASHCARD_NAME_LENGTH < newCard.back.length) {
-        console.log("front" , newCard.front.length, "back", newCard.back.length);
-      alert(`Question or Answers cannot exceed ${constants.MAX_FLASHCARD_NAME_LENGTH} characters.`);
+  
+    if (
+      constants.MAX_FLASHCARD_NAME_LENGTH < newCard.front.length ||
+      constants.MAX_FLASHCARD_NAME_LENGTH < newCard.back.length
+    ) {
+      console.log("front", newCard.front.length, "back", newCard.back.length);
+      toast.error(`Question or Answer cannot exceed ${constants.MAX_FLASHCARD_NAME_LENGTH} characters.`);
       return;
     }
+  
     try {
       await fetch(`http://localhost:5000/api/flashcards/${id}`, {
         method: 'POST',
@@ -52,8 +59,10 @@ const DeckDetails = () => {
       });
       setNewCard({ deck_id: Number(id), front: '', back: '' });
       fetchDeckDetails();
+      toast.success('Flashcard added successfully!');
     } catch (error) {
       console.error('Error adding flashcard:', error);
+      toast.error('Error adding flashcard. Please try again.');
     }
   };
 
@@ -86,14 +95,16 @@ const DeckDetails = () => {
 
   const generateJSON = () => {
     if (!flashcards || flashcards.length === 0) {
-      alert("No flashcards to export.");
+      toast.warning("No flashcards to export.");
       return;
     }
+  
     const jsonData = flashcards.map(card => ({ front: card.front, back: card.back }));
     const jsonString = JSON.stringify(jsonData, null, 2);
     const blob = new Blob([jsonString], { type: "application/json;charset=utf-8;" });
     const link = document.createElement("a");
     const fileName = deck?.name || `deck_${id}`;
+  
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
@@ -102,6 +113,8 @@ const DeckDetails = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+  
+      toast.success("Flashcards exported successfully!");
     }
   };
 

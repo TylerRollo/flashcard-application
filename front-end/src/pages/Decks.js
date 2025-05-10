@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import constants from "../utils/constants";
 import { Link } from "react-router-dom";
 import "../styles/pages/Decks.css";
+import { toast } from "react-toastify";
 
 const Decks = () => {
   const [decks, setDecks] = useState([]);
@@ -29,29 +30,35 @@ const Decks = () => {
   };
 
   const addDeck = async () => {
-    if (!newDeckName) return alert("Deck name is required.");
-
-    if (newDeckName.length > constants.MAX_DECK_NAME_LENGTH) {
-      return alert(`Deck name cannot exceed ${constants.MAX_DECK_NAME_LENGTH} characters.`);
+    if (!newDeckName) {
+      toast.warning("Deck name is required.");
+      return;
     }
-
+  
+    if (newDeckName.length > constants.MAX_DECK_NAME_LENGTH) {
+      toast.warning(`Deck name cannot exceed ${constants.MAX_DECK_NAME_LENGTH} characters.`);
+      return;
+    }
+  
     try {
       const response = await fetch("http://localhost:5000/api/decks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: userId, name: newDeckName }),
       });
-
+  
       if (response.ok) {
         setNewDeckName("");
         fetchDecks();
+        toast.success("Deck added successfully!");
       } else {
         const errorData = await response.json();
         console.error("Error adding deck:", errorData);
-        alert(errorData.error || "Failed to add deck.");
+        toast.error(errorData.error || "Failed to add deck.");
       }
     } catch (error) {
       console.error("Error adding deck:", error);
+      toast.error("An unexpected error occurred.");
     }
   };
 
@@ -88,35 +95,38 @@ const Decks = () => {
     setEditedDeckName("");
   };
 
-  const updateDeckName = async (deckId) => {
-    if (!editedDeckName.trim()) {
-      alert("Deck name cannot be empty.");
-      return;
-    }
+const updateDeckName = async (deckId) => {
+  if (!editedDeckName.trim()) {
+    toast.warning("Deck name cannot be empty.");
+    return;
+  }
 
-    if (editedDeckName.length > constants.MAX_DECK_NAME_LENGTH) {
-      return alert(`Deck name cannot exceed ${constants.MAX_DECK_NAME_LENGTH} characters.`);
-    }
+  if (editedDeckName.length > constants.MAX_DECK_NAME_LENGTH) {
+    toast.warning(`Deck name cannot exceed ${constants.MAX_DECK_NAME_LENGTH} characters.`);
+    return;
+  }
 
-    try {
-      const response = await fetch(`http://localhost:5000/api/decks/${deckId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: editedDeckName }),
-      });
+  try {
+    const response = await fetch(`http://localhost:5000/api/decks/${deckId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: editedDeckName }),
+    });
 
-      if (response.ok) {
-        setEditingDeckId(null);
-        fetchDecks();
-      } else {
-        const errorData = await response.json();
-        console.error("Error updating deck name:", errorData);
-        alert(errorData.error || "Failed to update deck.");
-      }
-    } catch (error) {
-      console.error("Error updating deck name:", error);
+    if (response.ok) {
+      setEditingDeckId(null);
+      fetchDecks();
+      toast.success("Deck name updated successfully!");
+    } else {
+      const errorData = await response.json();
+      console.error("Error updating deck name:", errorData);
+      toast.error(errorData.error || "Failed to update deck.");
     }
-  };
+  } catch (error) {
+    console.error("Error updating deck name:", error);
+    toast.error("An unexpected error occurred.");
+  }
+};
 
   return (
     <div className="decks-container">

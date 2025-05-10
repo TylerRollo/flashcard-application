@@ -111,9 +111,7 @@ npm start
 
 
 ## TODO:
-- add delete all selected decks or cards feature (decks and cards)
 - ability to choose which cards out of a deck to use
-- change all alerts to something cleaner
 - Session Cookies to keep data
 
 ### Security Checks (TODO:)

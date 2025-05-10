@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import testModes from "../utils/testModes"; // Import predefined test mode constants
 import "../styles/pages/PlaygameDetails.css"; // Import CSS styles
+import { toast } from "react-toastify"; // Import toast for notifications
 
 const PlaygameDetails = () => {
   const navigate = useNavigate(); // Hook for navigation
@@ -51,7 +52,7 @@ const PlaygameDetails = () => {
       resetDeck(flashcardData); // Initialize card state
     } catch (error) {
       console.error("Error fetching deck details:", error);
-      alert(error.message);
+      toast.warning(error.message);
     }
   };
 
