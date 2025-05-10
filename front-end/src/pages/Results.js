@@ -1,36 +1,30 @@
-// Importing React library to build the component
 import React from "react";
-
-// Importing React Router hooks for navigation and accessing passed state
 import { useNavigate, useLocation } from "react-router-dom";
+import testModes from "../utils/testModes.js"; // Import available test modes
+import "../styles/pages/Results.css"; // Import styles
 
-// Importing styles specific to the Results page
-import "../styles/pages/Results.css";
-
-// Defining the Results component
 const Results = () => {
-  // Hook to programmatically navigate between routes
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook for navigation
+  const location = useLocation(); // Hook to access state passed from previous screen
 
-  // Hook to access route-specific data (state passed via navigation)
-  const location = useLocation();
+  // Destructure state values passed from the PlaygameDetails component
+  const {
+    correct = 0,                  // Number of correct answers
+    incorrect = 0,                // Number of incorrect answers
+    deckId = null,                // ID of the studied deck
+    deckName = "",                // Name of the deck
+    incorrectCards = [],         // Array of incorrectly answered cards
+    testMode = testModes.FRONT_FIRST, // Mode used for testing (front first, back first, or random)
+    showBack = false,            // Indicates which side to show first when retrying
+    deck = null,                 // The full deck object
+    flashcards = [],             // All flashcards in the deck
+  } = location.state || {};
 
-  // Destructure values passed through route state or assign defaults
-  const { correct, incorrect, deckId, deckName, incorrectCards, showBack } =
-    location.state || {
-      correct: 0,
-      incorrect: 0,
-      deckId: null,
-      deckName: "",
-      incorrectCards: [],
-      showBack: false
-    };
-
-  // Calculate total questions and percentage of correct answers
+  // Calculate total answered and accuracy percentage
   const total = correct + incorrect;
   const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-  // Set motivational message based on performance
+  // Generate a motivational message based on performance
   const encouragement =
     percentage === 100
       ? "Perfect score! Amazing job! 🎉"
@@ -40,42 +34,35 @@ const Results = () => {
       ? "Good effort! Practice makes perfect! 👍"
       : "Don't give up! Try again and you'll get there! 🚀";
 
-  // Function to generate and trigger download of a JSON file containing incorrect answers
+  // Allow user to download their incorrect answers as a JSON file
   const generateJSON = () => {
-    // Format the incorrect cards as an array of objects
-    const jsonData = incorrectCards.map(card => ({
+    const jsonData = incorrectCards.map((card) => ({
       front: card.front,
-      back: card.back
+      back: card.back,
     }));
 
-    // Convert to JSON string with indentation for readability
-    const jsonString = JSON.stringify(jsonData, null, 2);
-
-    // Create a Blob object with the JSON string
-    const blob = new Blob([jsonString], {
-      type: "application/json;charset=utf-8;"
+    const blob = new Blob([JSON.stringify(jsonData, null, 2)], {
+      type: "application/json;charset=utf-8;",
     });
 
-    // Create a link to trigger download of the file
     const link = document.createElement("a");
-    const fileName = deckName || `deck_${deckId}`; // Fallback to deckId if deckName is missing
+    const fileName = deckName || `deck_${deckId}`;
 
-    // Only proceed if browser supports the download attribute
+    // Create and auto-click download link
     if (link.download !== undefined) {
       const url = URL.createObjectURL(blob);
       link.setAttribute("href", url);
       link.setAttribute("download", `${fileName}_incorrect_answers.json`);
       link.style.visibility = "hidden";
       document.body.appendChild(link);
-      link.click(); // Trigger the download
-      document.body.removeChild(link); // Clean up the DOM
+      link.click();
+      document.body.removeChild(link);
     }
   };
 
-  // JSX returned by the component
   return (
     <div className="results-container">
-      {/* Hero section with heading and motivational message */}
+      {/* Header section with result title and encouragement */}
       <header className="results-hero">
         <h1>Study Results</h1>
         <p>{encouragement}</p>
@@ -95,7 +82,7 @@ const Results = () => {
         </p>
       </section>
 
-      {/* List of incorrect answers (if any) */}
+      {/* Display list of incorrect answers if any */}
       {incorrectCards.length > 0 && (
         <section className="incorrect-answers">
           <h2>❌ Incorrect Answers</h2>
@@ -114,21 +101,31 @@ const Results = () => {
         </section>
       )}
 
-      {/* Action buttons: retry, choose another deck, download JSON */}
+      {/* Footer with action buttons */}
       <footer className="results-actions">
+        {/* Retry the same deck with the same mode */}
         <button
           className="retry-button"
           onClick={() =>
             navigate(`/playgame/${deckId}`, {
-              state: { frontFirst: showBack } // Reuse the same order the user studied in
+              state: {
+                testMode: testMode,
+                showBack: showBack,
+                deck: deck,
+                flashcards: flashcards,
+              },
             })
           }
         >
           🔄 Retry Deck
         </button>
+
+        {/* Go back to deck selection page */}
         <button className="decks-button" onClick={() => navigate("/playgame")}>
           📚 Choose Another Deck
         </button>
+
+        {/* Download incorrect answers as JSON if any */}
         {incorrectCards.length > 0 && (
           <button className="download-csv-button" onClick={generateJSON}>
             📥 Download Incorrect Answers
@@ -139,5 +136,4 @@ const Results = () => {
   );
 };
 
-// Export the component as default for use in the app
 export default Results;

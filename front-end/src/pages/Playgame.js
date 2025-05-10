@@ -28,8 +28,7 @@ const Playgame = () => {
   // Handle when a user selects a deck
   const handleDeckClick = (deckId) => {
     // Navigate to the game screen with selected deck and test mode
-    navigate(`/playgame/${deckId}`, { state: { testMode } });
-    console.log("navigating to deck:", deckId, "With test mode:", testMode);
+    navigate(`/playgame/confirmation/${deckId}`, { state: { testMode } });
   };
 
   // Update test mode state when user clicks a mode button

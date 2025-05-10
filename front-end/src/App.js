@@ -12,6 +12,7 @@ import Playgame from "./pages/Playgame";
 import PlaygameDetails from './pages/PlaygameDetails';
 import Results from "./pages/Results";
 import UploadCSV from "./pages/FastAdd";
+import Confirmation from './pages/Confirmation';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/decks" element={<Decks />} />
         <Route path="/decks/:id" element={<DeckDetails />} />
         <Route path="/playgame" element={<Playgame />} />
+        <Route path="/playgame/confirmation/:id" element={<Confirmation />} />
         <Route path="/playgame/:id" element={<PlaygameDetails />} />
         <Route path="/results" element={<Results />} />
         <Route path="/fastadd" element={<UploadCSV />} />
