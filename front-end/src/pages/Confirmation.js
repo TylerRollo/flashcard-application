@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import constants from '../utils/constants';
-import "../styles/pages/DeckDetails.css";
 import "../styles/pages/Confirmation.css"
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

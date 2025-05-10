@@ -45,6 +45,7 @@ html, body {
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
+  margin-top: 20px;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
@@ -127,10 +128,6 @@ html, body {
   font-size: 1.1em;
 }
 
-.flashcard-item p {
-  margin: 5px 0;
-}
-
 .flashcard-buttons {
   margin-top: 10px;
   text-align: right; /* or left, depending on your layout preference */
@@ -207,4 +204,17 @@ html, body {
 
 .delete-button:hover {
   background-color: #D32F2F; /* Slightly darker on hover for feedback */
+}
+
+/* Make sure textarea fits within padded card */
+.flashcard-edit-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 15px;
+  padding: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }

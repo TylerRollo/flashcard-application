@@ -132,10 +132,10 @@ const DeckDetails = () => {
       <header className="deck-header">
         <div className="deck-header-top">
           <h1>{deck ? deck.name : 'Loading...'}</h1>
-          <button className="download-button" onClick={generateJSON}>
+        </div>
+        <button className="download-button" onClick={generateJSON}>
             Download Deck
           </button>
-        </div>
       </header>
 
       <section className="flashcard-form">
@@ -172,6 +172,7 @@ const DeckDetails = () => {
             {editingCard === card.id ? (
               <>
                 <textarea
+                  className="flashcard-edit-textarea"
                   rows="1"
                   cols="35"
                   value={card.front}
@@ -179,6 +180,7 @@ const DeckDetails = () => {
                     flashcards.map(c => c.id === card.id ? { ...c, front: e.target.value } : c))}
                 />
                 <textarea
+                  className="flashcard-edit-textarea"
                   rows="8"
                   cols="35"
                   value={card.back}
