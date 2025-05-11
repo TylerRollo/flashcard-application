@@ -115,7 +115,6 @@ npm start
 
 
 ## TODO:
-- Clean up redundant .css files and classes 
 - do best to clean up code and add correct comments throughout
 - input validation on anything that calls the API (JSON upload, names, inputs)
 - Session Cookies to keep data (get rid of navigate and sending variables that way.)
