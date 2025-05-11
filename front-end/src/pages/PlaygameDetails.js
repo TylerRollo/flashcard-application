@@ -48,11 +48,9 @@ const PlaygameDetails = () => {
 
   // Set the initial face of the card depending on selected test mode
   const setCardFace = () => {
-    if (testMode === testModes.FRONT_FIRST) {
-      setShowBack(false);
-    } else if (testMode === testModes.BACK_FIRST) {
-      setShowBack(true);
-    } else if (testMode === testModes.RANDOM) {
+    if (testMode === testModes.FRONT_FIRST) { setShowBack(false); } 
+    else if (testMode === testModes.BACK_FIRST) { setShowBack(true); } 
+    else if (testMode === testModes.RANDOM) {
       const randomFace = Math.random() < 0.5;
       setShowBack(randomFace);
     }

@@ -57,21 +57,23 @@ const DeckDetails = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newCard),
       });
+
       setNewCard({ deck_id: Number(id), front: '', back: '' });
       fetchDeckDetails();
       toast.success('Flashcard added successfully!');
     } catch (error) {
-      console.error('Error adding flashcard:', error);
       toast.error('Error adding flashcard. Please try again.');
     }
   };
 
   const deleteSelectedFlashcards = async () => {
     if (!window.confirm("Are you sure you want to delete the selected flashcards?")) return;
+
     try {
       await Promise.all(Array.from(selectedCards).map(cardId =>
         fetch(`http://localhost:5000/api/flashcards/${cardId}`, { method: 'DELETE' })
       ));
+
       setSelectedCards(new Set());
       fetchDeckDetails();
     } catch (error) {
@@ -86,6 +88,7 @@ const DeckDetails = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedCard),
       });
+      
       setEditingCard(null);
       fetchDeckDetails();
     } catch (error) {
