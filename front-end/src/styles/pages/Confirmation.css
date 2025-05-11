@@ -1,25 +1,16 @@
 /* src/styles/DeckDetails.css */
 
-/* Basic reset and background setup */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #ff9a9e;
-  font-family: Arial, sans-serif;
-}
-
 /* Main container styling */
 .deck-details-container {
   min-height: 100vh;
   padding: 20px;
-  background-color: #ff9a9e;
+  background-color: var(--red);
   text-align: center;
 }
 
 /* Header styling */
 .deck-header {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
   padding: 40px 20px;
   border-radius: 10px;
@@ -29,11 +20,6 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.deck-header h1 {
-  font-size: 2.5em;
-  margin: 0;
 }
 
 /* Controls section */
@@ -47,9 +33,9 @@ html, body {
 
 .control-button {
   background-color: #ffffff;
-  color: #4CAF50;
+  color: var(--green);
   padding: 10px 16px;
-  border: 2px solid #4CAF50;
+  border: 2px solid var(--green);
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
@@ -57,13 +43,13 @@ html, body {
 }
 
 .control-button:hover {
-  background-color: #F57C00;
+  background-color: var(--orange);
   color: white;
-  border-color: #F57C00;
+  border-color: var(--orange);
 }
 
 .start-btn {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
 }
 
@@ -108,14 +94,4 @@ html, body {
   left: 10px;
   transform: scale(1.2);
   cursor: pointer;
-}
-
-/* Text styling inside each flashcard */
-.flashcard-item p {
-  margin: 15px 0;
-  font-size: 1em;
-}
-
-.flashcard-item p strong {
-  color: #333;
 }

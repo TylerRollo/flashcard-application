@@ -34,7 +34,7 @@
   .signup-btn {
     width: 100%;
     padding: 10px;
-    background-color: #4CAF50;
+    background-color: var(--green);
     color: white;
     border: none;
     border-radius: 5px;
@@ -51,7 +51,7 @@
   }
   
   a {
-    color: #4CAF50;
+    color: var(--green);
     text-decoration: none;
     font-weight: bold;
   }

@@ -9,6 +9,8 @@ A full-stack flashcard application that allows users to create, manage, and play
 - **Play with Flashcards** – Users can test their knowledge by flipping through flashcards.
 - **REST API** – Fetch, create, update, and delete decks/cards.
 - **Modern UI** – Responsive and colorful frontend using React and Bootstrap.
+- **Quick Downloads** – Can download new decks to a .json file for quick editing
+- **Quick Uploads** – Can upload new decks with a .json file
 
 ---
 
@@ -17,8 +19,9 @@ A full-stack flashcard application that allows users to create, manage, and play
 ### **Frontend:**
 - **React** – Component-based UI
 - **React Router** – Handles navigation
-- **CSS** – Styling
 - **Fetch API** – Handles API calls
+- **CSS** – Styling
+- **React Toastify** - Clean Error notifications
 
 ### **Backend:**
 - **Node.js** – JavaScript runtime
@@ -94,6 +97,8 @@ npm start
 2. **Add new flashcards** to your deck.
 3. **Play the game** by flipping through flashcards.
 4. **Delete decks/cards** when needed.
+5. **Retry** to learn again.
+6. **New Deck** if you want to learn another.
 
 ---
 
@@ -101,7 +106,6 @@ npm start
 - Progress Tracking
 - Categorizing cards within a deck
 - User authentication (login system)
-- Selective Flashcard shuffling mode
 - Cloud based application
 
 ---
@@ -111,6 +115,9 @@ npm start
 
 
 ## TODO:
+- Clean up redundant .css files and classes 
+- do best to clean up code and add correct comments throughout
+- input validation on anything that calls the API (JSON upload, names, inputs)
 - Session Cookies to keep data (get rid of navigate and sending variables that way.)
 
 ### Security Checks (TODO:)

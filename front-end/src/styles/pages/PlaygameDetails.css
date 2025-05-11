@@ -1,4 +1,3 @@
-/* General container styling */
 .playgame-container {
   display: flex;
   flex-direction: column;
@@ -12,7 +11,6 @@
   padding: 20px;
 }
 
-/* Header */
 .playgame-header {
   display: flex;
   justify-content: space-between;
@@ -26,7 +24,6 @@
   font-weight: bold;
 }
 
-/* Progress Bar */
 .progress-bar-container {
   width: 100%;
   max-width: 600px;
@@ -39,12 +36,11 @@
 
 .progress-bar {
   height: 100%;
-  background-color: #4caf50;
-  width: 0%; /* This will be dynamically updated */
+  background-color: var(--green);
+  width: 0%;
   transition: width 0.3s ease-in-out;
 }
 
-/* Flashcard container */
 .flashcard-container {
   width: 480px;
   height: 320px;
@@ -52,7 +48,6 @@
   margin-bottom: 30px;
 }
 
-/* Flashcard styling */
 .flashcard {
   width: 100%;
   height: 100%;
@@ -75,11 +70,6 @@
   box-shadow: 0px 6px 15px rgba(255, 255, 255, 0.5);
 }
 
-.flashcard.flipped {
-  transform: rotateY(180deg);
-}
-
-/* Flashcard content */
 .flashcard-content {
   position: absolute;
   width: 100%;
@@ -94,12 +84,6 @@
   transition: opacity 0.3s ease;
 }
 
-/* Back of the Flashcard */
-.flashcard .back {
-  transform: rotateY(180deg);
-}
-
-/* Answer buttons */
 .button-container {
   display: flex;
   justify-content: center;
@@ -115,7 +99,8 @@
   margin-bottom: 10px;
 }
 
-.correct-button, .incorrect-button {
+.correct-button,
+.incorrect-button {
   padding: 12px 24px;
   font-size: 1.2rem;
   font-weight: bold;
@@ -126,7 +111,7 @@
 }
 
 .correct-button {
-  background-color: #4caf50;
+  background-color: var(--green);
   color: white;
 }
 
@@ -143,7 +128,6 @@
   background-color: #d32f2f;
 }
 
-/* End session button */
 .end-session-button {
   margin-top: 20px;
   padding: 12px 24px;

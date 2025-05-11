@@ -1,33 +1,22 @@
 /* src/styles/DeckDetails.css */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #ff9a9e; /* Ensure full-page background */
-}
+@import "../Colors.css";
 
 .deck-details-container {
-  min-height: 100vh; /* Ensures the container takes up the full viewport height */
+  min-height: 100vh;
   text-align: center;
-  background-color: #ff9a9e;
+  background-color: var(--red);
   font-family: Arial, sans-serif;
   padding: 20px;
-  height: 100%
+  height: 100%;
 }
 
 .deck-header {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
   padding: 40px 20px;
   border-radius: 10px;
 }
 
-.deck-header h1 {
-  font-size: 2.5em;
-  margin-bottom: 10px;
-}
-
-/* ✅ New layout for header content */
 .deck-header-top {
   display: fixed;
   justify-content: space-between;
@@ -35,13 +24,11 @@ html, body {
   flex-wrap: wrap;
 }
 
-
-/* ✅ Styled download button */
 .download-button {
-  background-color: #ffffff;
-  color: #4CAF50;
+  background-color: var(--white);
+  color: var(--green);
   padding: 10px 16px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--white);
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
@@ -76,14 +63,17 @@ html, body {
 }
 
 .flashcard-form button {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
   border: none;
   cursor: pointer;
 }
 
+.flashcard-form button:hover {
+  background-color: #F57C00;
+}
 
-.flashcard-form .delete-button {
+.delete-button {
   background-color: #F44336;
   color: white;
   padding: 15px 25px;
@@ -96,8 +86,8 @@ html, body {
   margin: 20px 0;
 }
 
-.flashcard-form button:hover {
-  background-color: #F57C00;
+.delete-button:hover {
+  background-color: #D32F2F;
 }
 
 .flashcard-list {
@@ -128,58 +118,6 @@ html, body {
   font-size: 1.1em;
 }
 
-.flashcard-buttons {
-  margin-top: 10px;
-  text-align: right; /* or left, depending on your layout preference */
-}
-
-.flashcard-item button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #F44336;
-  color: white;
-  margin: 5px;
-  border: 1px solid #000000;
-}
-
-.flashcard-item button:hover {
-  background-color: #D32F2F;
-}
-
-/* ✅ Checkbox for selecting flashcards */
-.flashcard-checkbox {
-  position: absolute;
-  justify-content: flex-start;
-  top: 10px;
-  left: 10px;
-  transform: scale(1.2);
-  cursor: pointer;
-}
-
-/* ✅ Multi-delete bar at top of deck */
-.multi-delete-bar {
-  margin-top: 10px;
-  padding: 10px;
-}
-
-.multi-delete-bar button {
-  background-color: #F44336;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  font-size: 1em;
-  border-radius: 5px;
-  cursor: pointer;
-  border: 1px solid black;
-}
-
-.multi-delete-bar button:hover {
-  background-color: #D32F2F;
-}
-
-/* ✅ Checkbox for selecting flashcards */
 .select-checkbox {
   position: absolute;
   top: 10px;
@@ -189,24 +127,6 @@ html, body {
   cursor: pointer;
 }
 
-.delete-button {
-  background-color: #F44336;
-  color: white;
-  padding: 15px 25px;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.2em;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 30%;
-  margin: 20px 0;
-}
-
-.delete-button:hover {
-  background-color: #D32F2F; /* Slightly darker on hover for feedback */
-}
-
-/* Make sure textarea fits within padded card */
 .flashcard-edit-textarea {
   width: 100%;
   box-sizing: border-box;
@@ -217,4 +137,9 @@ html, body {
   font-size: 1em;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.flashcard-buttons {
+  margin-top: 10px;
+  text-align: right;
 }

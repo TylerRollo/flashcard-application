@@ -8,14 +8,14 @@ body {
 
 .home-container {
   text-align: center;
-  background-color: #ff9a9e;
+  background-color: var(--red);
   font-family: 'Arial', sans-serif;
   padding: 20px;
   min-height: 100vh; /* Ensure container covers the full height of the viewport */
 }
 
 .hero {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
   padding: 60px 20px;
   border-radius: 15px;
@@ -55,7 +55,7 @@ body {
 }
 
 .get-started {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
   padding: 12px 25px;
   font-size: 1.3em;

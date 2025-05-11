@@ -14,96 +14,34 @@
   font-size: 2rem;
 }
 
-.deck-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* Center the decks horizontally */
-  gap: 20px; /* Space between decks */
-}
-
-.deck-item {
-  background: linear-gradient(135deg, #84fab0, #8fd3f4);
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  width: 280px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex: 1 1 280px;
-  max-width: 300px;
-}
-
-.deck-item button {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #F44336;
-  color: white;
-  margin: 5px;
-  border: 1px solid #000000
-}
-
-.deck-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.deck-item a {
-  text-decoration: none;
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  display: block;
-  padding: 10px;
-  text-align: center;
-}
-
-.deck-item a:hover {
-  text-decoration: underline;
-}
-
-.deck-item h2 {
-  word-wrap: break-word;     /* Legacy support */
-  overflow-wrap: break-word; /* Modern equivalent */
-  hyphens: auto;             /* Let browser hyphenate words */
-  max-width: 100%;           /* Ensure it doesn't exceed the container */
-  white-space: normal;       /* Allow wrapping */
-}
-
-
-/* Styles for the deck-form */
 .deck-form {
   background: #fff;
   border-radius: 12px;
   padding: 40px;
-  width: 80%; /* Makes the form wider */
-  max-width: 500px; /* Limits the form's maximum width */
+  width: 80%;
+  max-width: 500px;
   margin: 20px auto;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-.deck-form input,
-.deck-form textarea,
-.deck-form select {
+.deck-form input {
   width: 100%;
   padding: 12px;
   border-radius: 8px;
   border: 1px solid #ccc;
   margin-bottom: 20px;
   font-size: 1.1em;
-  box-sizing: border-box; /* Prevents padding from affecting width */
+  box-sizing: border-box;
   transition: border-color 0.3s ease;
 }
 
-.deck-form input:focus,
-.deck-form textarea:focus,
-.deck-form select:focus {
-  border-color: #4CAF50; /* Highlight input on focus */
+.deck-form input:focus {
+  border-color: var(--green);
   outline: none;
 }
 
 .deck-form button {
-  background-color: #4CAF50;
+  background-color: var(--green);
   color: white;
   padding: 15px 25px;
   border: none;
@@ -114,26 +52,12 @@
   width: 100%;
 }
 
-.deck-checkbox {
-  width: 12px;
-  height: 12px;
-  cursor: pointer;
-  accent-color: #4CAF50; /* Optional: adds a green color to the checkbox if supported */
-  margin-right: 10px;
-  transform: scale(1.5); /* Additional scale if you want it even bigger */
-}
-
-
 .deck-form button:hover {
   background-color: #45a049;
 }
 
-.deck-form label {
-  font-size: 1.1em;
-  color: #333;
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+.bulk-delete-bar {
+  margin-top: 10px;
 }
 
 .bulk-delete-btn {
@@ -153,7 +77,72 @@
   background-color: #F44336;
 }
 
+.deck-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.deck-item {
+  background: linear-gradient(135deg, #84fab0, #8fd3f4);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex: 1 1 280px;
+  max-width: 300px;
+}
+
+.deck-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.deck-item button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #F44336;
+  color: white;
+  margin: 5px;
+  border: 1px solid #000000;
+}
+
+.deck-item a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: block;
+  padding: 10px;
+  text-align: center;
+}
+
+.deck-item a:hover {
+  text-decoration: underline;
+}
+
+.deck-item h2 {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+  white-space: normal;
+}
+
 .deck-top {
   display: flex;
   justify-content: flex-start;
+}
+
+.deck-checkbox {
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  accent-color: #4CAF50;
+  margin-right: 10px;
+  transform: scale(1.5);
 }

@@ -68,3 +68,21 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## File Upload 
+When uploading a .json file to the site, use this format with these keys
+[
+    {
+        front: "",
+        back: ""
+    },
+    {
+        front: "",
+        back: ""
+    },
+    {
+        front: "",
+        back: ""
+    },
+    ...
+]
